@@ -1,0 +1,101 @@
+﻿<html>
+<head>
+<title>Ejercicio1(js)</title>
+<style>
+#captchaimg{
+	height: 15%;
+	width: 20%;
+}
+</style>
+</head>
+<body bgcolor="lightblue">
+<form action="" id="formu" method="" onsubmit="return verificarForm()">
+<fieldset>
+<legend>Rellene el formulario</legend>
+<label for="dni">
+Introduzca su DNI: <input type="text" id="dnif"/>
+</label> <br />
+<label for="Nº envío">
+Introduzca código: <input type="text" id="code" onkeypress="return soloNumeros(event)"/>
+</label> <br />
+<label for="captcha">
+<img id="captchaimg" src="captcha.jpg" onclick="agrandarImagen()">
+<input type="text" id="captchaf" />
+</label> <br />
+<input type="submit">
+<input type="button" value="Aumentar tamaño del texto" onclick="aumentarFuente()" />
+<input type="button" value="Reducir tamaño del texto" onclick="reducirFuente()" />
+</fieldset>
+</form>
+</body>
+<script>
+function verificarForm(){
+	if(verificarDNI() && verificarNum() && verificarCaptcha()){
+		alert("Enviado con exito");
+			return true;
+		}else { 
+		alert("Rellene los campos correctamente");
+		return false;
+	}
+}
+
+function verificarDNI(){
+	var dniV = document.getElementById("dnif").value;
+	var letras = ['T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H', 'L', 'C', 'K', 'E', 'T'];
+	if( !(/^\d{8}[A-Z]$/.test(dniV)) ) {
+		alert("DNI incorrecto");
+		return false;
+	}
+ 
+	if(dniV.charAt(8) != letras[(dniV.substring(0, 8))%23]) {
+	
+		return false;
+	}
+	
+	if( dniV == null || dniV.length == 0 || /^\s+$/.test(dniV) ) {
+		return false;
+	}
+}
+
+function verificarNum(){
+	var numV = document.getElementById("code").value;
+	if( isNaN(numV) || !(/^\d{10}$/.test(numV)) ) {
+		alert("Codigo incorrecto");
+		document.getElementById("code").style.color= 'red';
+		return false;
+	}
+}
+
+function verificarCaptcha(){
+	var capV = document.getElementById("captchaf").value;
+	if( capV == null || capV.length == 0 || /^\s+$/.test(capV) ) {
+		alert("Captcha incorrecto");
+		document.getElementById("captchaf").style.color= 'red';
+		return false;
+	}
+}
+
+function agrandarImagen(){
+var v = window.open();
+var v = document.getElementById("captchaimg");
+}
+
+function soloNumeros(e){
+	var key = window.Event ? e.which : e.keyCode
+	return (key >= 48 && key <= 57)
+}
+
+ var fontSize = 1;
+        
+        function aumentarFuente() {
+            fontSize += 0.1;
+            document.body.style.fontSize = fontSize + "em";
+        }
+
+
+        function reducirFuente() {
+            fontSize -= 0.1;
+            document.body.style.fontSize = fontSize + "em";
+        }
+</script>
+</html>
